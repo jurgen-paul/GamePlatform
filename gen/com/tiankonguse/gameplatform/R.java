@@ -31,10 +31,22 @@ public final class R {
         public static final int start_bg=0x7f020003;
     }
     public static final class id {
+        public static final int class_progress=0x7f080002;
+        public static final int class_text=0x7f080003;
+        public static final int game_class_list_item=0x7f080005;
+        public static final int game_class_list_relativelayout=0x7f080001;
+        public static final int game_class_lists=0x7f080004;
+        public static final int imageIcon=0x7f080006;
+        public static final int main_viewpager=0x7f080007;
         public static final int start_text=0x7f080000;
     }
     public static final class layout {
         public static final int activity_begin=0x7f030000;
+        public static final int class_main=0x7f030001;
+        public static final int class_main_item=0x7f030002;
+        public static final int downloadui=0x7f030003;
+        public static final int manger_main=0x7f030004;
+        public static final int rank_main=0x7f030005;
     }
     public static final class string {
         public static final int app_name=0x7f060000;

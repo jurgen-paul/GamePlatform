@@ -28,7 +28,10 @@
             </intent-filter>
         </activity>
         <activity android:name="com.tiankonguse.gameplatform.MainDownloadUI"/>
-
+        <activity android:name="com.tiankonguse.gameplatform.tab.RankGame"/>
+        <activity android:name="com.tiankonguse.gameplatform.tab.ClassGame"/>
+        <activity android:name="com.tiankonguse.gameplatform.tab.MangerGame"/>
+        <activity android:name="com.tiankonguse.gameplatform.tab.BlankGame"/>
     </application>
 
 </manifest>

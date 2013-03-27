@@ -23,7 +23,7 @@ public class MyGameDB {
 	 * the string of url is my server on the web.
 	 * 
 	 **/
-	public static final String URL = "http://tiankonguse.com";
+	public static final String URL = "http://tiankonguse.com/android/";
 	
 	
 	/**
@@ -35,15 +35,15 @@ public class MyGameDB {
 	 * 
 	 **/
 	
-	public static final String  DB_NAME          = "tiankonguse_db_gameplatform";
+	public static final String  DB_NAME          = "tk_gameplatform";
 	public static final String  TABLE_CLASS     = "class";
 	public static final String  TABLE_GAME      = "game";
 	public static final String  TABLE_GAME_CLASS = "map";
  	
 	
-	public static final String GAME_CLASS_NAME = "GAME_CLASS_NAME";
-	public static final String GAME_RANK_NAME = "GAME_RANK_NAME";
-	public static final String GAME_NOW_NAME = "0";
+	public static final String GAME_CLASS_NAME = "游戏分类";
+	public static final String GAME_RANK_NAME = "时下热门";
+	public static final String GAME_NOW_NAME = "";
 	
 	
 	/**

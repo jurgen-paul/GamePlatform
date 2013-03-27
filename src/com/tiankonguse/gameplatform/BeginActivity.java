@@ -5,7 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
+
+import com.tiankonguse.gameplatform.db.GetGameDB;
 
 public class BeginActivity extends Activity {
 	
@@ -22,8 +23,12 @@ public class BeginActivity extends Activity {
 
 			@Override
 			protected Void doInBackground(Void... params) {
+				
+				GetGameDB.LoadGameDB(getContentResolver(), context);
+
+				
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(1000);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

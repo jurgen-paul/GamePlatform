@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.tiankonguse.gameplatform.R;
 import com.tiankonguse.gameplatform.db.MyGameDB;
+import com.tiankonguse.gameplatform.db.SetGameDB;
 
 //ExpandableList
 public class ClassGame extends Activity{
@@ -47,7 +48,10 @@ public class ClassGame extends Activity{
 				
 				
 				if(MyGameDB.getList(MyGameDB.GAME_CLASS_NAME).isEmpty()){
-					//SetGameDB.DownLoadClass(context);
+					
+					SetGameDB.DownLoadClass(context);
+					
+					Log.i("ClassGame", "class db is Empty");
 				}else{
 					Log.i("ClassGame", "class db is exit");
 				}

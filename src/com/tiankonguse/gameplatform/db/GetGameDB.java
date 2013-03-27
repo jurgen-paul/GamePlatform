@@ -42,7 +42,7 @@ public class GetGameDB {
 		List<HashMap<String, Object>> list = MyGameDB.getList(MyGameDB.GAME_CLASS_NAME);
 		
 		if(list == null){
-			Log.i("warning", "GAME_CLASS_NAME list is null");
+			Log.i("GetGameDB", "GAME_CLASS_NAME list is null");
 			return ;
 		}
 		
@@ -63,7 +63,7 @@ public class GetGameDB {
 			list.add(map);
 		}
 		
-		Log.i("warning", "class list's lenght is "+list.size());
+		Log.i("GetGameDB", "class list's lenght is "+list.size());
 		
 		cursor.close();
 		
@@ -80,7 +80,7 @@ public class GetGameDB {
 		List<HashMap<String, Object>> list = MyGameDB.getList(MyGameDB.GAME_RANK_NAME);
 		
 		if(list == null){
-			Log.i("warning", "GAME_RANK_NAME list is null");
+			Log.i("GetGameDB", "GAME_RANK_NAME list is null");
 			return ;
 		}
 		
@@ -92,7 +92,7 @@ public class GetGameDB {
 		
 		String sql = "select game from "+MyGameDB.TABLE_GAME_CLASS + " where class = 102";
 		
-		Log.i("warning", "sql :" + sql);
+		Log.i("GetGameDB", "sql :" + sql);
 		
 		SQLiteDatabase db = new DBHelper(context, MyGameDB.DB_NAME).getReadableDatabase();
 		Cursor cursor = db.rawQuery(sql, null);
@@ -121,7 +121,7 @@ public class GetGameDB {
 		
 
 		
-		Log.i("warning", "rank list's lenght is "+list.size());
+		Log.i("GetGameDB", "rank list's lenght is "+list.size());
 		
 		cursor.close();
 		

@@ -1,5 +1,5 @@
 package com.tiankonguse.gameplatform;
-
+ 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

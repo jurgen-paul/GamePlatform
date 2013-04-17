@@ -11,7 +11,7 @@ import com.tiankonguse.gameplatform.db.GetGameDB;
 public class BeginActivity extends Activity {
 //test	
 	Context context = null;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,6 +45,5 @@ public class BeginActivity extends Activity {
 		}.execute();
 		
 	}
-
 
 }

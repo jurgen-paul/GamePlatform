@@ -24,6 +24,7 @@ public class BeginActivity extends Activity {
 			@Override
 			protected Void doInBackground(Void... params) {
 				
+				//加载数据库
 				GetGameDB.LoadGameDB(getContentResolver(), context);
 
 				

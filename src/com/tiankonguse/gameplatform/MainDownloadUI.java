@@ -50,7 +50,7 @@ public class MainDownloadUI extends TabActivity {
 		
 		loadViewPager();
 		
-		tabHost.setCurrentTab(MyGameDB.TAB_MANGER);
+		tabHost.setCurrentTab(MyGameDB.TAB_RANK);
 
 	}
 

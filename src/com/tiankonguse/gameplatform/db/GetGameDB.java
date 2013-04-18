@@ -55,8 +55,8 @@ public class GetGameDB {
 		Cursor cursor = db.rawQuery(sql, null);
 		
 		while(cursor.moveToNext()){
-			String name = cursor.getString(cursor.getColumnIndex("name"));
 			String id = cursor.getString(cursor.getColumnIndex("id"));
+			String name = cursor.getString(cursor.getColumnIndex("name"));
 			HashMap<String, Object>map = new HashMap<String, Object>();
 			map.put("name", name);
 			map.put("id", id);

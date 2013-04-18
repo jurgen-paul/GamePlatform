@@ -48,8 +48,11 @@ public class SetGameDB {
 				+ ", name varchar(50) not null"
 				+ ", downLink varchar(255) not null"
 				+ ", imgLink varchar(255) not null"
-				+ ", star varchar(255) not null" + ", size varchar(255) "
-				+ ", time varchar(255) " + ", introduction TEXT" + ")";
+				+ ", star varchar(255) not null" 
+				+ ", size varchar(255) "
+				+ ", time varchar(255) " 
+				+ ", introduction TEXT" 
+				+ ")";
 
 		db.execSQL(createTabehead + MyGameDB.TABLE_GAME + createConstTabeend);
 
@@ -66,6 +69,7 @@ public class SetGameDB {
 		db.close();
 
 	}
+	
 	/**
 	 * 
 	 * update class from network and store to database.
@@ -76,10 +80,13 @@ public class SetGameDB {
 		
 		String classString = downLoadList.Begin().getText();
 		
-		Log.i("SetGameDB", "classString = "+classString);
+		//Log.i("SetGameDB", "classString = "+classString);
 		
 		changeStringToClass(classString);
 		
+		//Log.i("SetGameDB",  "list size ="+MyGameDB.getList(MyGameDB.GAME_CLASS_NAME).size());
+		
+		updateDatabaseGameClass(context);
 	}
 	
 	/**
@@ -91,7 +98,7 @@ public class SetGameDB {
 
 		s = s.trim();
 		
-		List<HashMap<String, Object>> list = MyGameDB.getList(MyGameDB.GAME_RANK_NAME);
+		List<HashMap<String, Object>> list = MyGameDB.getList(MyGameDB.GAME_CLASS_NAME);
 		
 		if(!list.isEmpty()){
 			list.clear();
@@ -101,13 +108,13 @@ public class SetGameDB {
 		
 		stringArray = s.split(";");
 		
-		Log.i("SetGameDB", "stringArray.length" + stringArray.length);
+		//Log.i("SetGameDB", "stringArray.length =" + stringArray.length);
 		
 		GameClassStruct tmp  = new GameClassStruct();
 		
 		for (int i = 0; i < stringArray.length; i++) {
 			
-			Log.i("SetGameDB", "stringArray[" + i + "] = " + stringArray[i]);
+			//Log.i("SetGameDB", "stringArray[" + i + "] = " + stringArray[i]);
 			if(tmp.split(stringArray[i])){
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				map.put("name", tmp.getName());
@@ -117,7 +124,7 @@ public class SetGameDB {
 			}
 		}
 		
-		Log.i("SetGameDB", "list size " + list.size());
+		//Log.i("SetGameDB", "list size " + list.size());
 
 	}
 	
@@ -128,7 +135,7 @@ public class SetGameDB {
 	 */
 	public static void updateDatabaseGameClass(Context context) {
 		
-		List<HashMap<String, Object>> list = MyGameDB.getList(MyGameDB.GAME_RANK_NAME);
+		List<HashMap<String, Object>> list = MyGameDB.getList(MyGameDB.GAME_CLASS_NAME);
 
 		
 		String tablename = MyGameDB.TABLE_CLASS;

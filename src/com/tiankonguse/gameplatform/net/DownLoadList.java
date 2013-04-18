@@ -9,6 +9,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.R.string;
+import android.util.Log;
+
 public final class DownLoadList {
 	
 	private String url = "";
@@ -51,6 +54,8 @@ public final class DownLoadList {
 	}
 	
 	public String getText() {
+		this.text = text.trim().replace("&amp;", "&");
+		Log.i("DownLoadList", "this.text = "+this.text);
 		return this.text;
 	}
 	

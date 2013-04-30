@@ -9,7 +9,7 @@ import android.os.Bundle;
 import com.tiankonguse.gameplatform.db.GetGameDB;
 
 public class BeginActivity extends Activity {
-//test	
+//	
 	Context context = null;
 
 	@Override

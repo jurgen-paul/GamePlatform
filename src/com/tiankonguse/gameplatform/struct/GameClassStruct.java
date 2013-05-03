@@ -1,4 +1,4 @@
-package struct;
+package com.tiankonguse.gameplatform.struct;
 
 public class GameClassStruct {
 	private int id;

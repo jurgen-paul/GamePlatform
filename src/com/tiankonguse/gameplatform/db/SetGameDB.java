@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import struct.GameClassStruct;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.tiankonguse.gameplatform.net.DownLoadList;
+import com.tiankonguse.gameplatform.struct.GameClassStruct;
 
 /**
  * 

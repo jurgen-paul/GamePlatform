@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.R.integer;
+import android.R.string;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -62,9 +63,8 @@ public class SetGameDB {
 		 * create table map
 		 * 
 		 */
-		createConstTabeend = " (class_id integer not null" 
-				+ ",game_id integer not null "
-				+ ")";
+		createConstTabeend = " (class_id integer not null"
+				+ ",game_id integer not null " + ")";
 
 		db.execSQL(createTabehead + MyGameDB.TABLE_MAP + createConstTabeend);
 
@@ -81,7 +81,7 @@ public class SetGameDB {
 	 */
 	public static void DownLoadClass(Context context) {
 
-		Log.i("SetGameDB", "begin down");
+		Log.i("SetGameDB", "begin down Class");
 
 		DownLoadList downLoadList = new DownLoadList(MyGameDB.URL
 				+ "get_class.php");
@@ -93,6 +93,148 @@ public class SetGameDB {
 		changeStringToClass(classString);
 
 		updateDatabaseGameClass(context);
+	}
+
+	/**
+	 * 
+	 * update rank from network and store to database.
+	 * 
+	 * 
+	 */
+	public static void DownLoadRank(Context context) {
+		Log.i("SetGameDB", "begin down Rank");
+
+		DownLoadList downLoadList = new DownLoadList(MyGameDB.URL
+				+ "get_rank.php");
+
+		String classString = downLoadList.Begin().getText();
+
+		Log.i("SetGameDB", "rankString = " + classString);
+
+		changeStringToRank(classString);
+
+		updateDatabaseGameRank(context);
+	}
+
+	/**
+	 * 
+	 * analyze the string that download from network to rank list.
+	 * 
+	 */
+	public static void changeStringToRank(String s) {
+		List<HashMap<String, Object>> list = MyGameDB
+				.getList(MyGameDB.GAME_RANK_NAME);
+
+		if (!list.isEmpty()) {
+			list.clear();
+		}
+
+		try {
+			JSONArray classList = new JSONArray(s);
+			int len = classList.length();
+			for (int i = 0; i < len; i++) {
+				JSONObject gameJsonObject = classList.getJSONObject(i);
+
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("id", gameJsonObject.getString("id"));
+				map.put("name", gameJsonObject.getString("name"));
+				map.put("img", gameJsonObject.getString("img"));
+				map.put("star", gameJsonObject.getString("star"));
+				map.put("apk", gameJsonObject.getString("apk"));
+				map.put("time", gameJsonObject.getString("time"));
+
+				// Log.i("SetGameDB", "name = " +
+				// gameJsonObject.getString("name")
+				// + " id = " + gameJsonObject.getString("id"));
+
+				list.add(map);
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void saveGame(Context context,
+			HashMap<String, Object> classInfo) {
+
+		String id = classInfo.get("id").toString();
+		String name = classInfo.get("name").toString();
+		String img = classInfo.get("img").toString();
+		String star = classInfo.get("star").toString();
+		String apk = classInfo.get("apk").toString();
+		String time = classInfo.get("time").toString();
+
+		String tablename = MyGameDB.TABLE_GAME;
+
+		SQLiteDatabase db = new DBHelper(context, MyGameDB.DB_NAME)
+				.getWritableDatabase();
+
+		String sql = "select * from " + tablename + " where id = '" + id + "'";
+		Cursor cursor = db.rawQuery(sql, null);
+
+		if (cursor.moveToNext()) {
+			db.execSQL("update " + tablename + " set " + "name = '" + name
+					+ "' ," + "img = '" + img + "' ," + "star = '" + star
+					+ "' ," + "apk = '" + apk + "' ," + "time = '" + time
+					+ "' " + " where  id = '" + id + "'");
+		} else {
+			ContentValues values = new ContentValues();
+			values.put("id", id);
+			values.put("name", name);
+			values.put("img", img);
+			values.put("star", star);
+			values.put("apk", apk);
+			values.put("time", time);
+			db.insert(tablename, null, values);
+		}
+		db.close();
+
+	}
+
+	public static void updateClassList(Context context,
+			List<HashMap<String, Object>> list, String class_id) {
+
+		if (!list.isEmpty()) {
+
+			String tablename = MyGameDB.TABLE_MAP;
+
+			SQLiteDatabase db = new DBHelper(context, MyGameDB.DB_NAME)
+					.getWritableDatabase();
+
+			db.execSQL("delete from " + tablename + " where class_id = '"
+					+ class_id + "'");
+
+			HashMap<String, Object> classInfo = null;
+
+			for (Iterator<HashMap<String, Object>> iterator = list.iterator(); iterator
+					.hasNext();) {
+				classInfo = (HashMap<String, Object>) iterator.next();
+
+				saveGame(context, classInfo);
+
+				ContentValues values = new ContentValues();
+				values.put("game_id", classInfo.get("id").toString());
+				values.put("class_id", class_id);
+				db.insert(tablename, null, values);
+			}
+			db.close();
+		}
+	}
+
+	/**
+	 * 
+	 * store rank list to databases.
+	 * 
+	 */
+	public static void updateDatabaseGameRank(Context context) {
+
+		List<HashMap<String, Object>> list = MyGameDB
+				.getList(MyGameDB.GAME_RANK_NAME);
+
+		updateClassList(context, list, "102");
+
+		Log.i("SetGameDB", "update rank db");
 	}
 
 	/**
@@ -150,19 +292,22 @@ public class SetGameDB {
 			for (Iterator<HashMap<String, Object>> iterator = list.iterator(); iterator
 					.hasNext();) {
 				classInfo = (HashMap<String, Object>) iterator.next();
-				
-				String id  = classInfo.get("id").toString();
+
+				String id = classInfo.get("id").toString();
 				String name = classInfo.get("name").toString();
-				
-				String sql = "select * from " + tablename + " where id = '"+id +"'";
+
+				String sql = "select * from " + tablename + " where id = '"
+						+ id + "'";
 				Cursor cursor = db.rawQuery(sql, null);
-				
-				if(cursor.moveToNext()){
-					String oldName = cursor.getString(cursor.getColumnIndex("name"));
-					if(!name.equals(oldName)){
-						db.execSQL("update "+tablename+" set name = '"+name+"' where  id = '"+id+"'");
+
+				if (cursor.moveToNext()) {
+					String oldName = cursor.getString(cursor
+							.getColumnIndex("name"));
+					if (!name.equals(oldName)) {
+						db.execSQL("update " + tablename + " set name = '"
+								+ name + "' where  id = '" + id + "'");
 					}
-				}else{
+				} else {
 					ContentValues values = new ContentValues();
 					values.put("name", classInfo.get("name").toString());
 					values.put("id", classInfo.get("id").toString());

@@ -106,23 +106,30 @@ public class GetGameDB {
 			String game_id = cursor.getString(cursor.getColumnIndex("game_id"));
 			gameList.add(game_id);
 		}
-
+		
+		
+		
 		for (String game : gameList) {
 			sql = "select * from " + MyGameDB.TABLE_GAME + " where id = '"
 					+ game + "'";
+			
 			cursor = db.rawQuery(sql, null);
-			String id = cursor.getString(cursor.getColumnIndex("id"));
-			String name = cursor.getString(cursor.getColumnIndex("name"));
-			String apk = cursor.getString(cursor.getColumnIndex("apk"));
-			String img = cursor.getString(cursor.getColumnIndex("img"));
-			String star = cursor.getString(cursor.getColumnIndex("star"));
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
-			map.put("name", name);
-			map.put("apk", apk);
-			map.put("img", img);
-			map.put("star", star);
-			list.add(map);
+			if(cursor.moveToNext()){
+				String id = cursor.getString(cursor.getColumnIndex("id"));
+				String name = cursor.getString(cursor.getColumnIndex("name"));
+				String apk = cursor.getString(cursor.getColumnIndex("apk"));
+				String img = cursor.getString(cursor.getColumnIndex("img"));
+				String star = cursor.getString(cursor.getColumnIndex("star"));
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("id", id);
+				map.put("name", name);
+				map.put("apk", apk);
+				map.put("img", img);
+				map.put("star", star);
+				list.add(map);
+			}
+			
+
 		}
 
 		Log.i("GetGameDB", "rank list's lenght is " + list.size());

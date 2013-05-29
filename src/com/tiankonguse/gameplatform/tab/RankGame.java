@@ -119,7 +119,7 @@ public class RankGame extends Activity{
 			if(convertView != null){
 				this.myHolder = (ButtonViewHolder)convertView.getTag();
 			}else{
-				convertView = myInflater.inflate(R.layout.rank_main_item, null);
+				convertView = myInflater.inflate(R.layout.game_item, null);
 				this.myHolder = new ButtonViewHolder();
 				this.myHolder.name = (TextView)convertView.findViewById(R.id.game_item_name);
 				this.myHolder.img = (ImageView)convertView.findViewById(R.id.game_item_img);

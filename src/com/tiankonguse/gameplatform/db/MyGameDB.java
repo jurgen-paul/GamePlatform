@@ -24,6 +24,7 @@ public class MyGameDB {
 	 * 
 	 **/
 	public static final String URL = "http://tiankonguse.com/android/";
+	//public static final String URL = "http://125.222.201.19:8080/android/";
 	
 	
 	/**
@@ -35,10 +36,10 @@ public class MyGameDB {
 	 * 
 	 **/
 	
-	public static final String  DB_NAME          = "tk_gameplatform";
+	public static final String  DB_NAME         = "tk_gameplatform";
 	public static final String  TABLE_CLASS     = "class";
 	public static final String  TABLE_GAME      = "game";
-	public static final String  TABLE_GAME_CLASS = "map";
+	public static final String  TABLE_MAP       = "map";
  	
 	
 	public static final String GAME_CLASS_NAME = "游戏分类";

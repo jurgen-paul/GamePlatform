@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -66,9 +67,9 @@ public class ClassGame extends Activity{
 					gameClassListView.setVisibility(View.VISIBLE);
 					progressBar.setVisibility(View.GONE);
 					textView.setVisibility(View.GONE);
-					//gameClassListAdapter = new GameClassListAdapter(context, MyGameDB.getList(MyGameDB.db_table_game_class));
 
-					//gameClassListView.setAdapter((ListAdapter) gameClassListAdapter);
+					gameClassListAdapter = new GameClassListAdapter(context, MyGameDB.getList(MyGameDB.GAME_CLASS_NAME));
+					gameClassListView.setAdapter((ListAdapter) gameClassListAdapter);
 				}else{
 					Log.i("ClassGame", "class is null");
 				}

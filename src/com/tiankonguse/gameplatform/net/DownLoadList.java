@@ -54,7 +54,6 @@ public final class DownLoadList {
 	}
 	
 	public String getText() {
-		this.text = text.trim().replace("&amp;", "&");
 		Log.i("DownLoadList", "this.text = "+this.text);
 		return this.text;
 	}

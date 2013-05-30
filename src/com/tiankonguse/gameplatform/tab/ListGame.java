@@ -6,11 +6,14 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.tiankonguse.gameplatform.MainDownloadUI;
 import com.tiankonguse.gameplatform.R;
 import com.tiankonguse.gameplatform.db.MyGameDB;
 import com.tiankonguse.gameplatform.db.SetGameDB;
@@ -33,6 +37,8 @@ public class ListGame  extends Activity{
 	private static ProgressBar progressBar;
 	String s = null;
 	TextView textView;
+	TextView class_name;
+	ImageView list_return;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +50,15 @@ public class ListGame  extends Activity{
 		
 		progressBar = (ProgressBar) findViewById(R.id.list_progress);
 		textView = (TextView) findViewById(R.id.list_text);
+		class_name = (TextView) findViewById(R.id.class_name);
+		list_return = (ImageView)findViewById(R.id.list_return);
 		
+		Intent intent=getIntent(); 
+        String id=intent.getStringExtra("id"); 
+        String name=intent.getStringExtra("name"); 
+		
+        class_name.setText(name);
+        
 		new AsyncTask<Void, Void, Void>() {
 
 			@Override
@@ -79,12 +93,21 @@ public class ListGame  extends Activity{
 			
 		}.execute();
 		
+		list_return.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+//				onKeyDown(KeyEvent.KEYCODE_BACK, null);
+			}
+		});
+		
 	}
 	
 	class gameListAdapter extends BaseAdapter{
 		
 		private class ButtonViewHolder{
-			TextView    name;
+			TextView  name;
 			ImageView img;
 			RatingBar star;
 			Button install;
@@ -143,4 +166,9 @@ public class ListGame  extends Activity{
 	
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	   return super.onKeyDown(keyCode, event);
+	}	
+	
 }

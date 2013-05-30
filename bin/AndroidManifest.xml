@@ -33,6 +33,7 @@
         <activity android:name="com.tiankonguse.gameplatform.tab.MangerGame"/>
         <activity android:name="com.tiankonguse.gameplatform.tab.BlankGame"/>
         <activity android:name="com.tiankonguse.gameplatform.tab.ListGame"/>
+        <activity android:name="com.tiankonguse.gameplatform.tab.game"/>
     </application>
 
 </manifest>

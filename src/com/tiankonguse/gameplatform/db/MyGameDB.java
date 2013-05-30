@@ -83,5 +83,6 @@ public class MyGameDB {
 	public static void setGameNowName(String s, String id) {
 		GAME_NOWLIST_NAME = s;
 		GAME_NOWLIST_ID = id;
+		gameNowShowList.clear();
 	}
 }

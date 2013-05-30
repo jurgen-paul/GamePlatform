@@ -138,4 +138,68 @@ public class GetGameDB {
 
 		db.close();
 	}
+	
+	/**
+	 * load the list of class class is game list
+	 */
+	public static void getGameList(Context context) {
+		List<HashMap<String, Object>> list = MyGameDB
+				.getList(MyGameDB.GAME_NOWLIST_NAME);
+
+		if (list == null) {
+			Log.i("GetGameDB", "GAME_NOW_NAME list is null");
+			return;
+		}
+
+		if (!list.isEmpty()) {
+			list.clear();
+		}
+
+		List<String> gameList = new ArrayList<String>();
+
+		String sql = "select * from " + MyGameDB.TABLE_MAP
+				+ " where class_id = '" + MyGameDB.GAME_NOWLIST_ID + "'";
+
+		Log.i("GetGameDB", "sql :" + sql);
+
+		SQLiteDatabase db = new DBHelper(context, MyGameDB.DB_NAME)
+				.getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql, null);
+
+		while (cursor.moveToNext()) {
+			String game_id = cursor.getString(cursor.getColumnIndex("game_id"));
+			gameList.add(game_id);
+		}
+		
+		
+		
+		for (String game : gameList) {
+			sql = "select * from " + MyGameDB.TABLE_GAME + " where id = '"
+					+ game + "'";
+			
+			cursor = db.rawQuery(sql, null);
+			if(cursor.moveToNext()){
+				String id = cursor.getString(cursor.getColumnIndex("id"));
+				String name = cursor.getString(cursor.getColumnIndex("name"));
+				String apk = cursor.getString(cursor.getColumnIndex("apk"));
+				String img = cursor.getString(cursor.getColumnIndex("img"));
+				String star = cursor.getString(cursor.getColumnIndex("star"));
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("id", id);
+				map.put("name", name);
+				map.put("apk", apk);
+				map.put("img", img);
+				map.put("star", star);
+				list.add(map);
+			}
+			
+
+		}
+
+		Log.i("GetGameDB", "now game list's lenght is " + list.size());
+
+		cursor.close();
+
+		db.close();
+	}
 }

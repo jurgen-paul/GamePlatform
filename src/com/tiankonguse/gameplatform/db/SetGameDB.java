@@ -118,6 +118,64 @@ public class SetGameDB {
 
 	/**
 	 * 
+	 * update game list from network and store to database.
+	 * 
+	 * 
+	 */
+	public static void DownLoadList(Context context) {
+		Log.i("SetGameDB", "begin down list");
+
+		DownLoadList downLoadList = new DownLoadList(MyGameDB.URL
+				+ "get_cid.php?cid=" + MyGameDB.GAME_NOWLIST_ID);
+		String listString = downLoadList.Begin().getText();
+
+		Log.i("SetGameDB", "listString = " + listString);
+
+		changeStringToList(listString);
+
+		updateDatabaseGameList(context);
+	}
+
+
+	/**
+	 * 
+	 * analyze the string that download from network to class list.
+	 * 
+	 */
+	public static void changeStringToClass(String s) {
+
+		List<HashMap<String, Object>> list = MyGameDB
+				.getList(MyGameDB.GAME_CLASS_NAME);
+
+		if (!list.isEmpty()) {
+			list.clear();
+		}
+
+		try {
+			JSONArray classList = new JSONArray(s);
+			int len = classList.length();
+			for (int i = 0; i < len; i++) {
+				JSONObject gameJsonObject = classList.getJSONObject(i);
+
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("name", gameJsonObject.getString("name"));
+				map.put("id", gameJsonObject.getInt("id"));
+
+				Log.i("SetGameDB", "name = " + gameJsonObject.getString("name")
+						+ " id = " + gameJsonObject.getString("id"));
+
+				list.add(map);
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+	/**
+	 * 
 	 * analyze the string that download from network to rank list.
 	 * 
 	 */
@@ -153,7 +211,51 @@ public class SetGameDB {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+	}	
+
+
+	/**
+	 * 
+	 * analyze the string that download from network to list.
+	 * 
+	 */
+	public static void changeStringToList(String s) {
+		List<HashMap<String, Object>> list = MyGameDB
+				.getList(MyGameDB.GAME_NOWLIST_NAME);
+
+		if (!list.isEmpty()) {
+			list.clear();
+		}
+		
+		
+		
+		try {
+			JSONArray classList = new JSONArray(s);
+			int len = classList.length();
+			for (int i = 0; i < len; i++) {
+				JSONObject gameJsonObject = classList.getJSONObject(i);
+
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("id", gameJsonObject.getString("id"));
+				map.put("name", gameJsonObject.getString("name"));
+				map.put("img", gameJsonObject.getString("img"));
+				map.put("star", gameJsonObject.getString("star"));
+				map.put("apk", gameJsonObject.getString("apk"));
+				map.put("time", gameJsonObject.getString("time"));
+
+				// Log.i("SetGameDB", "name = " +
+				// gameJsonObject.getString("name")
+				// + " id = " + gameJsonObject.getString("id"));
+
+				list.add(map);
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		Log.i("SetGameDB", "changeStringToList");
 	}
+
 
 	public static void saveGame(Context context,
 			HashMap<String, Object> classInfo) {
@@ -191,6 +293,7 @@ public class SetGameDB {
 		db.close();
 
 	}
+	
 
 	public static void updateClassList(Context context,
 			List<HashMap<String, Object>> list, String class_id) {
@@ -236,43 +339,18 @@ public class SetGameDB {
 
 		Log.i("SetGameDB", "update rank db");
 	}
-
-	/**
-	 * 
-	 * analyze the string that download from network to class list.
-	 * 
-	 */
-	public static void changeStringToClass(String s) {
-
+	
+	public static void updateDatabaseGameList(Context context) {
 		List<HashMap<String, Object>> list = MyGameDB
-				.getList(MyGameDB.GAME_CLASS_NAME);
+				.getList(MyGameDB.GAME_NOWLIST_NAME);
+		
+		//Log.i("SetGameDB", "update list size " + list.size());
+		
+		updateClassList(context, list, MyGameDB.GAME_NOWLIST_ID);
 
-		if (!list.isEmpty()) {
-			list.clear();
-		}
-
-		try {
-			JSONArray classList = new JSONArray(s);
-			int len = classList.length();
-			for (int i = 0; i < len; i++) {
-				JSONObject gameJsonObject = classList.getJSONObject(i);
-
-				HashMap<String, Object> map = new HashMap<String, Object>();
-				map.put("name", gameJsonObject.getString("name"));
-				map.put("id", gameJsonObject.getInt("id"));
-
-				Log.i("SetGameDB", "name = " + gameJsonObject.getString("name")
-						+ " id = " + gameJsonObject.getString("id"));
-
-				list.add(map);
-			}
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
+		Log.i("SetGameDB", "update list db");
 	}
-
+	
 	/**
 	 * 
 	 * store class list to databases.

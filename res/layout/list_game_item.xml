@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/game_item_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:orientation="vertical"
+        android:textAlignment="center" >
+
+        <ImageView
+            android:id="@+id/list_game_item_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/icon_bg_2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/game_item_mid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_toLeftOf="@id/game_item_left"
+        android:orientation="vertical"
+        android:textAlignment="center" >
+
+        <TextView
+            android:id="@+id/list_game_item_name"
+            android:layout_width="119dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:text="TextView"
+            android:textAlignment="center" />
+
+        <RatingBar
+            android:id="@+id/list_game_item_star"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="135dp"
+            android:layout_height="match_parent"
+            android:numStars="5"
+            android:stepSize="0.5" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/list_game_item_install"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="install" />
+    </LinearLayout>
+
+</RelativeLayout>

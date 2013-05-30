@@ -8,8 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.integer;
-import android.R.string;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,7 +15,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.tiankonguse.gameplatform.net.DownLoadList;
-import com.tiankonguse.gameplatform.struct.GameClassStruct;
 
 /**
  * 
@@ -136,6 +133,18 @@ public class SetGameDB {
 		updateDatabaseGameList(context);
 	}
 
+	public static void DownLoadGame(Context context, String id) {
+		DownLoadList downLoadList = new DownLoadList(MyGameDB.URL
+				+ "get_game.php?id=" + id);
+
+		String gameString = downLoadList.Begin().getText();
+
+		Log.i("SetGameDB", "gameString = " + gameString);
+
+		HashMap<String, Object> map = changeStringToGame(gameString);
+		;
+		saveGame(context, map);
+	}
 
 	/**
 	 * 
@@ -173,7 +182,6 @@ public class SetGameDB {
 
 	}
 
-
 	/**
 	 * 
 	 * analyze the string that download from network to rank list.
@@ -200,19 +208,15 @@ public class SetGameDB {
 				map.put("star", gameJsonObject.getString("star"));
 				map.put("apk", gameJsonObject.getString("apk"));
 				map.put("time", gameJsonObject.getString("time"));
-
-				// Log.i("SetGameDB", "name = " +
-				// gameJsonObject.getString("name")
-				// + " id = " + gameJsonObject.getString("id"));
-
+				map.put("info", gameJsonObject.getString("info"));
+				map.put("size", gameJsonObject.getString("size"));
 				list.add(map);
 			}
 
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-	}	
-
+	}
 
 	/**
 	 * 
@@ -226,9 +230,7 @@ public class SetGameDB {
 		if (!list.isEmpty()) {
 			list.clear();
 		}
-		
-		
-		
+
 		try {
 			JSONArray classList = new JSONArray(s);
 			int len = classList.length();
@@ -242,6 +244,8 @@ public class SetGameDB {
 				map.put("star", gameJsonObject.getString("star"));
 				map.put("apk", gameJsonObject.getString("apk"));
 				map.put("time", gameJsonObject.getString("time"));
+				map.put("info", gameJsonObject.getString("info"));
+				map.put("size", gameJsonObject.getString("size"));
 
 				// Log.i("SetGameDB", "name = " +
 				// gameJsonObject.getString("name")
@@ -256,6 +260,23 @@ public class SetGameDB {
 		Log.i("SetGameDB", "changeStringToList");
 	}
 
+	public static HashMap<String, Object> changeStringToGame(String s) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		try {
+			JSONObject gameJsonObject = new JSONObject(s);
+			map.put("id", gameJsonObject.getString("id"));
+			map.put("name", gameJsonObject.getString("name"));
+			map.put("img", gameJsonObject.getString("img"));
+			map.put("star", gameJsonObject.getString("star"));
+			map.put("apk", gameJsonObject.getString("apk"));
+			map.put("time", gameJsonObject.getString("time"));
+			map.put("info", gameJsonObject.getString("info"));
+			map.put("size", gameJsonObject.getString("size"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
 
 	public static void saveGame(Context context,
 			HashMap<String, Object> classInfo) {
@@ -266,6 +287,8 @@ public class SetGameDB {
 		String star = classInfo.get("star").toString();
 		String apk = classInfo.get("apk").toString();
 		String time = classInfo.get("time").toString();
+		String info = classInfo.get("info").toString();
+		String size = classInfo.get("size").toString();
 
 		String tablename = MyGameDB.TABLE_GAME;
 
@@ -279,7 +302,8 @@ public class SetGameDB {
 			db.execSQL("update " + tablename + " set " + "name = '" + name
 					+ "' ," + "img = '" + img + "' ," + "star = '" + star
 					+ "' ," + "apk = '" + apk + "' ," + "time = '" + time
-					+ "' " + " where  id = '" + id + "'");
+					+ "' ," + "info = '" + info + "' ," + "size = '" + size
+					+ "' where  id = '" + id + "'");
 		} else {
 			ContentValues values = new ContentValues();
 			values.put("id", id);
@@ -288,12 +312,13 @@ public class SetGameDB {
 			values.put("star", star);
 			values.put("apk", apk);
 			values.put("time", time);
+			values.put("info", info);
+			values.put("size", size);
 			db.insert(tablename, null, values);
 		}
 		db.close();
 
 	}
-	
 
 	public static void updateClassList(Context context,
 			List<HashMap<String, Object>> list, String class_id) {
@@ -339,18 +364,18 @@ public class SetGameDB {
 
 		Log.i("SetGameDB", "update rank db");
 	}
-	
+
 	public static void updateDatabaseGameList(Context context) {
 		List<HashMap<String, Object>> list = MyGameDB
 				.getList(MyGameDB.GAME_NOWLIST_NAME);
-		
-		//Log.i("SetGameDB", "update list size " + list.size());
-		
+
+		// Log.i("SetGameDB", "update list size " + list.size());
+
 		updateClassList(context, list, MyGameDB.GAME_NOWLIST_ID);
 
 		Log.i("SetGameDB", "update list db");
 	}
-	
+
 	/**
 	 * 
 	 * store class list to databases.

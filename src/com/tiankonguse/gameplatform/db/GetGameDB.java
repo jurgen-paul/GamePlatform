@@ -28,7 +28,7 @@ public class GetGameDB {
 
 		SetGameDB.CreateTable(context);
 		getGameRankList(context);
-		 getGameClassList(context);
+		getGameClassList(context);
 
 	}
 
@@ -56,7 +56,7 @@ public class GetGameDB {
 
 		while (cursor.moveToNext()) {
 			String id = cursor.getString(cursor.getColumnIndex("id"));
-			if("102".equals(id)){
+			if ("102".equals(id)) {
 				continue;
 			}
 			String name = cursor.getString(cursor.getColumnIndex("name"));
@@ -106,15 +106,13 @@ public class GetGameDB {
 			String game_id = cursor.getString(cursor.getColumnIndex("game_id"));
 			gameList.add(game_id);
 		}
-		
-		
-		
+
 		for (String game : gameList) {
 			sql = "select * from " + MyGameDB.TABLE_GAME + " where id = '"
 					+ game + "'";
-			
+
 			cursor = db.rawQuery(sql, null);
-			if(cursor.moveToNext()){
+			if (cursor.moveToNext()) {
 				String id = cursor.getString(cursor.getColumnIndex("id"));
 				String name = cursor.getString(cursor.getColumnIndex("name"));
 				String apk = cursor.getString(cursor.getColumnIndex("apk"));
@@ -128,7 +126,6 @@ public class GetGameDB {
 				map.put("star", star);
 				list.add(map);
 			}
-			
 
 		}
 
@@ -138,7 +135,7 @@ public class GetGameDB {
 
 		db.close();
 	}
-	
+
 	/**
 	 * load the list of class class is game list
 	 */
@@ -170,29 +167,34 @@ public class GetGameDB {
 			String game_id = cursor.getString(cursor.getColumnIndex("game_id"));
 			gameList.add(game_id);
 		}
-		
-		
-		
+
 		for (String game : gameList) {
 			sql = "select * from " + MyGameDB.TABLE_GAME + " where id = '"
 					+ game + "'";
-			
+
 			cursor = db.rawQuery(sql, null);
-			if(cursor.moveToNext()){
+			if (cursor.moveToNext()) {
 				String id = cursor.getString(cursor.getColumnIndex("id"));
 				String name = cursor.getString(cursor.getColumnIndex("name"));
 				String apk = cursor.getString(cursor.getColumnIndex("apk"));
 				String img = cursor.getString(cursor.getColumnIndex("img"));
 				String star = cursor.getString(cursor.getColumnIndex("star"));
+				String time = cursor.getString(cursor.getColumnIndex("time"));
+				String info = cursor.getString(cursor.getColumnIndex("info"));
+				String size = cursor.getString(cursor.getColumnIndex("size"));
+
+				
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				map.put("id", id);
 				map.put("name", name);
 				map.put("apk", apk);
 				map.put("img", img);
 				map.put("star", star);
+				map.put("time", time);
+				map.put("info", info);
+				map.put("size", size);
 				list.add(map);
 			}
-			
 
 		}
 
@@ -202,4 +204,39 @@ public class GetGameDB {
 
 		db.close();
 	}
+
+	public static HashMap<String, Object> getGameInfo(Context context, String id) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String sql = "select * from " + MyGameDB.TABLE_GAME + " where id = '"
+				+ id + "'";
+		SQLiteDatabase db = new DBHelper(context, MyGameDB.DB_NAME)
+				.getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql, null);
+
+		if(cursor.moveToNext()) {
+			String name = cursor.getString(cursor.getColumnIndex("name"));
+			String apk = cursor.getString(cursor.getColumnIndex("apk"));
+			String img = cursor.getString(cursor.getColumnIndex("img"));
+			String star = cursor.getString(cursor.getColumnIndex("star"));
+			String time = cursor.getString(cursor.getColumnIndex("time"));
+			String info = cursor.getString(cursor.getColumnIndex("info"));
+			String size = cursor.getString(cursor.getColumnIndex("size"));
+
+			map.put("id", id);
+			map.put("name", name);
+			map.put("apk", apk);
+			map.put("img", img);
+			map.put("star", star);
+			map.put("time", time);
+			map.put("info", info);
+			map.put("size", size);
+			
+			return map;
+		}else{
+			return null;			
+		}
+
+		
+	}
+
 }

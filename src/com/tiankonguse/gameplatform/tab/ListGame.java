@@ -37,7 +37,6 @@ import com.tiankonguse.gameplatform.net.DownloadFile;
 import com.tiankonguse.gameplatform.net.FileUtils;
 
 
-
 public class ListGame extends Activity {
 
 	public static Context context;

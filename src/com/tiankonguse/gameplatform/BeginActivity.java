@@ -9,30 +9,20 @@ import android.os.Bundle;
 import com.tiankonguse.gameplatform.db.GetGameDB;
 
 public class BeginActivity extends Activity {
-//	
 	Context context = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_begin);
-		
 		context = this;
 		
 		new AsyncTask<Void, Void, Void>() {
 
 			@Override
 			protected Void doInBackground(Void... params) {
-				
 				//加载数据库
 				GetGameDB.LoadGameDB(getContentResolver(), context);
-
-				
-				try {
-					Thread.sleep(1000);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 				return null;
 			}
 			

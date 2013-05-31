@@ -3,21 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    android:background="@drawable/start_bg"
+    android:background="@drawable/ic_launcher"
     android:orientation="vertical"
     >
-    
-    <TextView 
+
+    <TextView
         android:id="@+id/start_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="30dp"
         android:layout_marginBottom="250dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
         android:text="@string/start_text"
-        android:textSize="25sp"
         android:textColor="@color/start_text_color"
-        />
+        android:textSize="25sp" />
     
     <ProgressBar 
         style="@android:style/Widget.ProgressBar"

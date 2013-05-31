@@ -36,6 +36,7 @@
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
         android:scrollingCache="false"
+        android:layout_marginBottom="10dp"
         android:visibility="gone" >
     </ListView>
 

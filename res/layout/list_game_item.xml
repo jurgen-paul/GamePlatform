@@ -6,7 +6,7 @@
     android:orientation="horizontal" >
 
     <LinearLayout
-        android:id="@+id/game_item_left"
+        android:id="@+id/list_game_item_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -20,39 +20,48 @@
         <ImageView
             android:id="@+id/list_game_item_img"
             android:layout_width="60dp"
-            android:layout_height="0dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/icon_bg_2" />
+            android:src="@drawable/defaultpreview" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/game_item_mid"
+        android:id="@+id/list_game_item_mid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
-        android:layout_toLeftOf="@id/game_item_left"
+        android:layout_toLeftOf="@id/list_game_item_left"
         android:orientation="vertical"
         android:textAlignment="center" >
 
         <TextView
             android:id="@+id/list_game_item_name"
-            android:layout_width="match_parent"
+            android:layout_width="119dp"
             android:layout_height="32dp"
-            android:text="TextView"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:textStyle="normal"
             android:textAlignment="center" />
 
         <RatingBar
             android:id="@+id/list_game_item_star"
             style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="135dp"
-            android:layout_height="match_parent"
             android:numStars="5"
-            android:stepSize="1" />
-
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"            
+            android:isIndicator="true"
+            android:max="10"
+            android:stepSize="0.5"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -61,14 +70,14 @@
         android:layout_alignParentRight="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
         android:orientation="vertical" >
 
         <Button
             android:id="@+id/list_game_item_install"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="安装"
-            />
+            android:text="安装" />
     </LinearLayout>
 
 </RelativeLayout>

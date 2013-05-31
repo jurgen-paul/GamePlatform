@@ -61,7 +61,7 @@ public class GetGameDB {
 
 		while (cursor.moveToNext()) {
 			String id = cursor.getString(cursor.getColumnIndex("id"));
-			if ("102".equals(id)) {
+			if ("102".equals(id) || "410".equals(id)) {
 				continue;
 			}
 			String name = cursor.getString(cursor.getColumnIndex("name"));

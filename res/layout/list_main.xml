@@ -70,10 +70,11 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:divider="@drawable/divider"
-        android:dividerHeight="1dp"
+        android:dividerHeight="2dp"
         android:drawSelectorOnTop="false"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
+        android:layout_marginBottom="10dp"
         android:scrollingCache="false"
         android:visibility="gone" >
     </ListView>

@@ -1,9 +1,12 @@
 package com.tiankonguse.gameplatform.db;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import android.R.bool;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -106,6 +109,7 @@ public class GetGameDB {
 			String game_id = cursor.getString(cursor.getColumnIndex("game_id"));
 			gameList.add(game_id);
 		}
+		
 
 		for (String game : gameList) {
 			sql = "select * from " + MyGameDB.TABLE_GAME + " where id = '"
@@ -134,6 +138,15 @@ public class GetGameDB {
 		cursor.close();
 
 		db.close();
+
+		Collections.sort(list, new Comparator<HashMap<String, Object>>() {
+			public int compare(HashMap<String, Object> first,
+					HashMap<String, Object> second) {
+				return Integer.parseInt(second.get("star").toString())
+						- Integer.parseInt(first.get("star").toString());
+			}
+		});
+
 	}
 
 	/**
@@ -183,7 +196,6 @@ public class GetGameDB {
 				String info = cursor.getString(cursor.getColumnIndex("info"));
 				String size = cursor.getString(cursor.getColumnIndex("size"));
 
-				
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				map.put("id", id);
 				map.put("name", name);
@@ -213,7 +225,7 @@ public class GetGameDB {
 				.getReadableDatabase();
 		Cursor cursor = db.rawQuery(sql, null);
 
-		if(cursor.moveToNext()) {
+		if (cursor.moveToNext()) {
 			String name = cursor.getString(cursor.getColumnIndex("name"));
 			String apk = cursor.getString(cursor.getColumnIndex("apk"));
 			String img = cursor.getString(cursor.getColumnIndex("img"));
@@ -230,13 +242,28 @@ public class GetGameDB {
 			map.put("time", time);
 			map.put("info", info);
 			map.put("size", size);
-			
-			return map;
-		}else{
-			return null;			
 		}
+		cursor.close();
 
+		db.close();
+		return map;
+	}
+
+	public static boolean checkIsGame(Context context, String name) {
+		boolean yes = false;
+		String sql = "select * from " + MyGameDB.TABLE_GAME
+				+ " where name like '%" + name + "%'";
+		SQLiteDatabase db = new DBHelper(context, MyGameDB.DB_NAME)
+				.getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql, null);
+		if (cursor.moveToNext()) {
+			yes = true;
+		}
 		
+		cursor.close();
+
+		db.close();
+		return yes;
 	}
 
 }

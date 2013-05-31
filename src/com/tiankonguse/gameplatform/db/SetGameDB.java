@@ -1,5 +1,7 @@
 package com.tiankonguse.gameplatform.db;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -216,6 +218,13 @@ public class SetGameDB {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		Collections.sort(list,  new Comparator<HashMap<String, Object>>() {
+            public int compare(HashMap<String, Object> first, HashMap<String, Object> second) {
+                return Integer.parseInt(first.get("star").toString()) - Integer.parseInt(second.get("star").toString());
+            }
+        });
+		
+		
 	}
 
 	/**

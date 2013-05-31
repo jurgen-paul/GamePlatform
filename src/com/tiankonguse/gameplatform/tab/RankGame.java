@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -26,12 +27,15 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tiankonguse.gameplatform.R;
 import com.tiankonguse.gameplatform.db.MyGameDB;
 import com.tiankonguse.gameplatform.db.SetGameDB;
+import com.tiankonguse.gameplatform.listener.InstallListener;
 import com.tiankonguse.gameplatform.net.DownloadFile;
 import com.tiankonguse.gameplatform.net.FileUtils;
+import com.tiankonguse.gameplatform.net.SystemDownload;
 
 public class RankGame extends Activity {
 
@@ -171,10 +175,10 @@ public class RankGame extends Activity {
 					MyGameDB.GAME_RANK_NAME).get(position);
 			if (map != null) {
 				final String id = (String) map.get("id");
-				String name = (String) map.get("name");
+				final String name = (String) map.get("name");
 				final String img = (String) map.get("img");
 				String star = (String) map.get("star");
-				String install = (String) map.get("install");
+				final String apk = (String) map.get("apk");
 
 				final String imgType = img.substring(img.length() - 4);
 
@@ -211,19 +215,28 @@ public class RankGame extends Activity {
 
 					}.execute();
 
-					
 				}
 
 				// myHolder.img.set
 				myHolder.star.setRating((float) Float.parseFloat(star) / 2);
 				myHolder.star.setOnRatingBarChangeListener(null);
-				// myHolder.install.setOnClickListener(new OnClickListener() {
-				//
-				// @Override
-				// public void onClick(View v) {
-				//
-				// }
-				// });
+				myHolder.install.setOnClickListener(
+						new InstallListener(id, name, context, apk));
+//				myHolder.install.setOnClickListener(new OnClickListener() {
+//					
+//					@Override
+//					public void onClick(View v) {
+//						if(FileUtils.isFileExist("tiankonguse/game/apk/",id+".apk")){
+//							 Toast.makeText(context,
+//							name + "游戏已下载，是否安装",
+//							 Toast.LENGTH_SHORT).show();
+//						}else{
+//							SystemDownload systemDownload = new SystemDownload(apk,"tiankonguse/game/apk/",id,context,name);
+//							systemDownload.download();
+//						}
+//
+//					}
+//				});
 				myHolder.name.setText(name);
 			}
 

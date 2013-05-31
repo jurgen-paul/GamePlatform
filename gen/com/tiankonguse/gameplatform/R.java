@@ -207,8 +207,9 @@ public final class R {
         public static final int game_item_name=0x7f080010;
         public static final int game_item_star=0x7f080011;
         public static final int game_lists=0x7f08001d;
+        public static final int game_manger_lists=0x7f080026;
         public static final int game_name=0x7f08000a;
-        public static final int game_rank_lists=0x7f080020;
+        public static final int game_rank_lists=0x7f080029;
         public static final int game_return=0x7f080007;
         public static final int game_star=0x7f08000b;
         public static final int game_time=0x7f08000e;
@@ -221,8 +222,16 @@ public final class R {
         public static final int list_return=0x7f080019;
         public static final int list_text=0x7f08001c;
         public static final int main_viewpager=0x7f080006;
-        public static final int rank_progress=0x7f08001e;
-        public static final int rank_text=0x7f08001f;
+        public static final int manger_item_img=0x7f08001f;
+        public static final int manger_item_left=0x7f08001e;
+        public static final int manger_item_mid=0x7f080020;
+        public static final int manger_item_name=0x7f080021;
+        public static final int manger_item_pak=0x7f080022;
+        public static final int manger_item_unstall=0x7f080023;
+        public static final int manger_progress=0x7f080024;
+        public static final int manger_text=0x7f080025;
+        public static final int rank_progress=0x7f080027;
+        public static final int rank_text=0x7f080028;
         public static final int start_text=0x7f080000;
     }
     public static final class layout {
@@ -234,8 +243,9 @@ public final class R {
         public static final int game_item=0x7f030005;
         public static final int list_game_item=0x7f030006;
         public static final int list_main=0x7f030007;
-        public static final int manger_main=0x7f030008;
-        public static final int rank_main=0x7f030009;
+        public static final int manger_item=0x7f030008;
+        public static final int manger_main=0x7f030009;
+        public static final int rank_main=0x7f03000a;
     }
     public static final class string {
         public static final int app_name=0x7f060000;

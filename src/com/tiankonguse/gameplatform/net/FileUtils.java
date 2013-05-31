@@ -40,6 +40,9 @@ public class FileUtils {
     public static String getPath(String path, String fileName){
     	return SDPATH + path + fileName;
     }
+    public static String getPath(String path){
+    	return SDPATH + path;
+    }
     
       
     /**  

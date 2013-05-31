@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/manger_item_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:orientation="vertical"
+        android:textAlignment="center" >
+
+        <ImageView
+            android:id="@+id/manger_item_img"
+            android:layout_width="60dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/icon_bg_2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/manger_item_mid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_toLeftOf="@id/game_item_left"
+        android:orientation="vertical"
+        android:textAlignment="center" >
+
+        <TextView
+            android:id="@+id/manger_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:text="TextView"
+            android:textAlignment="center" />
+        <TextView
+            android:id="@+id/manger_item_pak"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:text="TextView"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/manger_item_unstall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="卸载"
+            />
+        </LinearLayout>
+
+</RelativeLayout>

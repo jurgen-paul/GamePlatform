@@ -431,5 +431,12 @@ public class SetGameDB {
 		db.close();
 		Log.i("SetGameDB", "update class db");
 	}
-
+	
+	public static void deleteItemFromList(Context context,HashMap<String, Object>map,String tableName){
+		List<HashMap<String, Object>>fromList = MyGameDB.getList(tableName);
+		if(fromList.contains(map)){
+			fromList.remove(map);
+		}
+	}
+	
 }

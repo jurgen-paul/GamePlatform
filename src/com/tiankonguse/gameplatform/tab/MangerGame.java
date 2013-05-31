@@ -1,18 +1,21 @@
 package com.tiankonguse.gameplatform.tab;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -24,6 +27,8 @@ import android.widget.TextView;
 import com.tiankonguse.gameplatform.R;
 import com.tiankonguse.gameplatform.db.GetGameDB;
 import com.tiankonguse.gameplatform.db.MyGameDB;
+import com.tiankonguse.gameplatform.db.SetGameDB;
+import com.tiankonguse.gameplatform.manger.Unstall;
 import com.tiankonguse.gameplatform.struct.AppInfo;
 
 public class MangerGame extends Activity {
@@ -44,54 +49,51 @@ public class MangerGame extends Activity {
 		new AsyncTask<Void, Void, Void>() {
 
 			@Override
-			protected Void doInBackground(Void... params) {
-
-				PackageManager pm = getPackageManager();
-				Log.i("MangerGame", "1");
-				// 得到PackageManager对象
-				List<PackageInfo> packs = pm.getInstalledPackages(0);
-				// 得到系统 安装的所有程序包的PackageInfo对象
-				Log.i("MangerGame", "2");
-				for (PackageInfo pi : packs) {
-					String appName = pi.applicationInfo.loadLabel(pm)
-							.toString();
-					if (GetGameDB.checkIsGame(context, appName)) {
-
-						AppInfo appInfo = new AppInfo();
-						// 应用名
-						appInfo.setAppname(appName);
-
-						appInfo.setPackagename(pi.packageName);
-
-						appInfo.setVersionCode(pi.versionCode);
-
-						appInfo.setAppicon(pi.applicationInfo.loadIcon(pm));
-
-						items.add(appInfo);
-
-					}
-
-				}
+			protected Void doInBackground(Void... params) {	
+				GetGameDB.UpdateInstallGameList(context);
 				return null;
 			}
 
 			@Override
 			protected void onPostExecute(Void result) {
-				if (!items.isEmpty()) {
+				
+				List<HashMap<String, Object>> list = MyGameDB
+						.getList(MyGameDB.GAME_INSTALL_LIST);
+				
+				if (!list.isEmpty()) {
 					ListView = (ListView) findViewById(R.id.game_manger_lists);
 					ProgressBar manger_progress = (ProgressBar) findViewById(R.id.manger_progress);
 					ListView.setVisibility(View.VISIBLE);
 					manger_progress.setVisibility(View.GONE);
-
-					listAdapter = new ListAdapter(context, items);
-
+					listAdapter = new ListAdapter(context, list);
 					ListView.setAdapter((ListAdapter) listAdapter);
-
 				}
 			}
 		}.execute();
 
 	}
+
+	@Override
+	protected void onResume() {
+		GetGameDB.UpdateInstallGameList(context);
+		updateMyList();
+		super.onResume();
+	}
+	
+	
+	
+
+
+	@Override
+	protected void onRestart() {
+		GetGameDB.UpdateInstallGameList(context);
+		updateMyList();
+		super.onRestart();
+	}
+
+
+
+
 
 	class ListAdapter extends BaseAdapter {
 		private class ButtonViewHolder {
@@ -102,12 +104,12 @@ public class MangerGame extends Activity {
 			int state;
 		}
 
-		private ArrayList<AppInfo> list;
+		private List<HashMap<String, Object>> list;
 		private LayoutInflater myInflater;
 		private ButtonViewHolder myHolder;
 
-		public ListAdapter(Context context, List<AppInfo> list) {
-			this.list = (ArrayList<AppInfo>) list;
+		public ListAdapter(Context context, List<HashMap<String, Object>> list) {
+			this.list = (List<HashMap<String, Object>>) list;
 			this.myInflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
@@ -126,7 +128,16 @@ public class MangerGame extends Activity {
 		public long getItemId(int position) {
 			return position;
 		}
-
+		
+		public void removeItem(int position){
+			SetGameDB.deleteItemFromList(
+					getApplicationContext()
+					,MyGameDB.getList(MyGameDB.GAME_INSTALL_LIST).get(position)
+					,MyGameDB.GAME_INSTALL_LIST
+					);
+			this.notifyDataSetChanged();
+		}
+		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -147,15 +158,36 @@ public class MangerGame extends Activity {
 				convertView.setTag(myHolder);
 			}
 			
-			AppInfo map = items.get(position);
+			HashMap<String, Object>map = MyGameDB
+					.getList(MyGameDB.GAME_INSTALL_LIST).get(position);
+			
 			if (map != null) {
-				 myHolder.icon.setImageDrawable(map.getAppicon());
-				 myHolder.name.setText(map.getAppname());
-				 myHolder.pak.setText(map.getPackagename());
+				final int _position = position;
+				final String packageName = (String) map.get("packageName");
+				 myHolder.icon.setImageDrawable((Drawable) map.get("icon"));
+				 myHolder.name.setText((String) map.get("name"));
+				 myHolder.pak.setText("更新日期:"+getDate(map.get("lastUpdateTime").toString()));
+				 myHolder.unstall.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Unstall.unstall(context, packageName);	
+						removeItem(_position);
+					}
+				});
 			}
 			return convertView;
 		}
-
 	}
-
+	public static void updateMyList(){
+		listAdapter.notifyDataSetChanged();
+	}
+	String getDate(String time){
+		Date date = new Date(Long.parseLong(time));
+		int year  = date.getYear() + 1900;
+		int month = date.getMonth() ;
+		int day = date.getDay() + 1;
+				
+		return year + "-" + month + "-" + day + " ";
+	}
+	
 }

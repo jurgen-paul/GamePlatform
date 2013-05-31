@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.tiankonguse.gameplatform.struct.AppInfo;
+
 public class MyGameDB {
 
 	/**
@@ -39,6 +41,7 @@ public class MyGameDB {
 
 	public static final String GAME_CLASS_NAME = "游戏分类";
 	public static final String GAME_RANK_NAME = "时下热门";
+	public static final String GAME_INSTALL_LIST = "安装的游戏";
 	public static String GAME_NOWLIST_NAME = "";
 	public static String GAME_NOWLIST_ID = "";
 
@@ -65,7 +68,9 @@ public class MyGameDB {
 	 * 
 	 **/
 	private static List<HashMap<String, Object>> gameNowShowList = new ArrayList<HashMap<String, Object>>();
-
+		
+	private static List<HashMap<String, Object>> installGameList = new ArrayList<HashMap<String, Object>>();
+	
 	public static List<HashMap<String, Object>> getList(String name) {
 
 		if (GAME_CLASS_NAME.equals(name)) {
@@ -74,6 +79,10 @@ public class MyGameDB {
 
 		if (GAME_RANK_NAME.equals(name)) {
 			return gameRankList;
+		}
+		
+		if (GAME_INSTALL_LIST.equals(name)) {
+			return installGameList;
 		}
 
 		return gameNowShowList;

@@ -230,4 +230,12 @@ public class RankGame extends Activity {
 
 	}
 
+	@Override
+	protected void onResume() {
+		
+		super.onResume();
+	}
+
+	
+	
 }

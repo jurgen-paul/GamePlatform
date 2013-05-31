@@ -6,9 +6,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import android.R.bool;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -32,6 +33,7 @@ public class GetGameDB {
 		SetGameDB.CreateTable(context);
 		getGameRankList(context);
 		getGameClassList(context);
+		UpdateInstallGameList(context);
 
 	}
 
@@ -251,11 +253,19 @@ public class GetGameDB {
 
 	public static boolean checkIsGame(Context context, String name) {
 		boolean yes = false;
+		
+		if(name.length() <= 2){
+			return false;
+		}
+		
 		String sql = "select * from " + MyGameDB.TABLE_GAME
-				+ " where name like '%" + name + "%'";
+				+ " where name like ? or info like ?";
 		SQLiteDatabase db = new DBHelper(context, MyGameDB.DB_NAME)
 				.getReadableDatabase();
-		Cursor cursor = db.rawQuery(sql, null);
+
+		String[] mValue = new String[]{"%"+name+"%","%"+name+"%"};
+		
+		Cursor cursor = db.rawQuery(sql,  mValue);
 		if (cursor.moveToNext()) {
 			yes = true;
 		}
@@ -265,5 +275,39 @@ public class GetGameDB {
 		db.close();
 		return yes;
 	}
-
+	
+	
+	public static void UpdateInstallGameList(Context context){
+		
+		//get install game list
+		List<HashMap<String, Object>> list = MyGameDB
+				.getList(MyGameDB.GAME_INSTALL_LIST);
+		
+		if(!list.isEmpty()){
+			list.clear();
+		}
+		
+		//get package manger 
+		PackageManager pm = context.getPackageManager();
+		
+		// get packafe info list
+		List<PackageInfo> packs = pm.getInstalledPackages(0);
+		
+		for (PackageInfo pi : packs) {
+			
+			String name = pi.applicationInfo.loadLabel(pm)
+					.toString();
+			if (GetGameDB.checkIsGame(context, name)) {
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("name", name);
+				map.put("packageName", pi.packageName);
+				map.put("versionCode", pi.versionCode);
+				map.put("icon", pi.applicationInfo.loadIcon(pm));
+				map.put("lastUpdateTime", pi.lastUpdateTime);
+				list.add(map);
+			}
+		}
+		
+	}
+	
 }

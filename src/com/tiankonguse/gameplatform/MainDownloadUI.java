@@ -164,6 +164,7 @@ public class MainDownloadUI extends TabActivity {
 
 			public void onPageSelected(int arg0) {
 				tabHost.setCurrentTab(arg0);
+				MangerGame.updateMyList();
 			}
 			
 			

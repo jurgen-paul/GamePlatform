@@ -1,12 +1,14 @@
 package com.tiankonguse.gameplatform.listener;
 
-import com.tiankonguse.gameplatform.net.FileUtils;
-import com.tiankonguse.gameplatform.net.SystemDownload;
-
+import android.app.DownloadManager;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
+
+import com.tiankonguse.gameplatform.net.FileUtils;
+import com.tiankonguse.gameplatform.net.SystemDownload;
 
 public class InstallListener implements OnClickListener{
 	String id;
@@ -38,6 +40,10 @@ public class InstallListener implements OnClickListener{
 		}else{
 			SystemDownload systemDownload = new SystemDownload(apk,"tiankonguse/game/apk/",id,context,appname);
 			systemDownload.download();
+			CompleteReceiver completeReceiver = new CompleteReceiver(id,systemDownload.getDownloadId(),systemDownload.getDownloadManager());
+			/** register download success broadcast **/
+			context.registerReceiver(completeReceiver, new IntentFilter(
+					DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 		}
 	}
 }

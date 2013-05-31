@@ -222,21 +222,6 @@ public class RankGame extends Activity {
 				myHolder.star.setOnRatingBarChangeListener(null);
 				myHolder.install.setOnClickListener(
 						new InstallListener(id, name, context, apk));
-//				myHolder.install.setOnClickListener(new OnClickListener() {
-//					
-//					@Override
-//					public void onClick(View v) {
-//						if(FileUtils.isFileExist("tiankonguse/game/apk/",id+".apk")){
-//							 Toast.makeText(context,
-//							name + "游戏已下载，是否安装",
-//							 Toast.LENGTH_SHORT).show();
-//						}else{
-//							SystemDownload systemDownload = new SystemDownload(apk,"tiankonguse/game/apk/",id,context,name);
-//							systemDownload.download();
-//						}
-//
-//					}
-//				});
 				myHolder.name.setText(name);
 			}
 

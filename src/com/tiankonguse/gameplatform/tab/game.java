@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.tiankonguse.gameplatform.R;
 import com.tiankonguse.gameplatform.db.GetGameDB;
 import com.tiankonguse.gameplatform.db.SetGameDB;
+import com.tiankonguse.gameplatform.listener.InstallListener;
 import com.tiankonguse.gameplatform.net.DownloadFile;
 import com.tiankonguse.gameplatform.net.FileUtils;
 
@@ -70,6 +71,8 @@ public class game extends Activity {
 			}
 		});
 		
+		
+		
 		new AsyncTask<Void, Void, Void>() {
 
 			@Override
@@ -94,11 +97,14 @@ public class game extends Activity {
 					String name = getString("name");
 					final String img = getString("img");
 					String star = getString("star");
-					String install = getString("install");
+					String apk = getString("apk");
 					String size = getString("size");
 					String info = getString("info");
 					String time = getString("time");
-
+					
+					game_install.setOnClickListener(
+							new InstallListener(id, name, context, apk));
+					
 					final String imgType = img.substring(img.length() - 4);
 
 					if (FileUtils

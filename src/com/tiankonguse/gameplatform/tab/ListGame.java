@@ -33,6 +33,7 @@ import com.tiankonguse.gameplatform.R;
 import com.tiankonguse.gameplatform.db.GetGameDB;
 import com.tiankonguse.gameplatform.db.MyGameDB;
 import com.tiankonguse.gameplatform.db.SetGameDB;
+import com.tiankonguse.gameplatform.listener.InstallListener;
 import com.tiankonguse.gameplatform.net.DownloadFile;
 import com.tiankonguse.gameplatform.net.FileUtils;
 
@@ -199,7 +200,7 @@ public class ListGame extends Activity {
 				String name = (String) map.get("name");
 				final String img = (String) map.get("img");
 				String star = (String) map.get("star");
-				String install = (String) map.get("install");
+				String apk = (String) map.get("apk");
 				
 				final String imgType = img.substring(img.length() - 4);
 
@@ -242,6 +243,8 @@ public class ListGame extends Activity {
 				// myHolder.img.set
 				myHolder.star.setRating((float) Float.parseFloat(star) / 2);
 				myHolder.star.setOnRatingBarChangeListener(null);
+				myHolder.install.setOnClickListener(
+						new InstallListener(id, name, context, apk));
 				myHolder.name.setText(name);
 			}
 

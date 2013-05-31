@@ -2,12 +2,11 @@ package com.tiankonguse.gameplatform.manger;
 
 import java.io.File;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-public class Install extends Activity {
+public class Unstall {
 	/**
 	 * install app
 	 * 
@@ -15,7 +14,7 @@ public class Install extends Activity {
 	 * @param filePath
 	 * @return whether apk exist
 	 */
-	public static boolean install(Context context, String filePath) {
+	public static boolean unstall(Context context, String filePath) {
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		File file = new File(filePath);
 		if (file != null && file.length() > 0 && file.exists() && file.isFile()) {
@@ -28,3 +27,4 @@ public class Install extends Activity {
 		return false;
 	}
 }
+
